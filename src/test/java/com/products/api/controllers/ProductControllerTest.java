@@ -34,7 +34,7 @@ public class ProductControllerTest {
 
   @BeforeEach
   public void setup() {
-
+    productRepository.deleteAll();
   }
 
   @Test
