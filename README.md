@@ -1,11 +1,5 @@
 # product-api
-A foreign exchange rate microservice created using Java and SpringBoot.
-
-This application handles currencies and their conversions to euros. 
-The API includes fetching the list of supported currencies, their exchange rates and the converted amount.
-
-Under the hood it calls [Bundesbank Daily Exchange Rates](https://www.bundesbank.de/dynamic/action/en/statistics/time-series-databases/time-series-databases/759784/759784?statisticType=BBK_ITS&listId=www_sdks_b01012_3&treeAnchor=WECHSELKURSE) 
-and parses the HTML document to fetch the currencies and exchange rates.
+This application contains the APIs to create, list and find the product.
 
 ## Prerequisites
 This app uses :-
@@ -21,97 +15,128 @@ This app uses :-
 - mvn spring-boot:run
 
 After running, the project, switch to your browser and hit 
-http://localhost:8080/api/currencies. We should see the list of Currencies.
+http://localhost:8080/api/products. We should see the list of Products.
 
 Swagger documentation is also added, and it will be up at http://localhost:8080/swagger-ui.html#/
 
 Below is the list of APIs that are implemented :-
 
-- To fetch list of all available currencies
+**To create the Product**
 
-`GET:- http://localhost:8080/api/currencies`
+`POST:- http://localhost:8080/api/products`
+
+Request Body:- 
+
+```
+{
+    "title": "Soap",
+    "details": "Cleanising agent",
+    "price": 40.5,
+    "size": "small",
+    "category": "domestic"
+}
+
+```
 
 Response:- 
 
 ```
 
-[
-    {
-        "symbol": "AUD",
-        "country": "Australia", 
-    },
-    {
-        "symbol": "BGN",
-        "country": "Bulgaria",
-    },
-    {
-        "symbol": "BRL",
-        "country": "Brazil",
-    },
-    {
-        "symbol": "CAD",
-        "country": "Canada",
-    }
- ]
+{
+    "details": "Cleanising agent",
+    "title": "Soap",
+    "id": "8c3ed1bb-166c-47dd-a3bb-afd501f0f13a",
+    "category": "domestic",
+    "size": "small",
+    "price": 40.5
+}
 
 ```
 
-- To fetch the exchange rates at all available dates for a given currency
+If details, title or price has null value, it returns an error
 
-`GET:- http://localhost:8080/api/exchangeRates/USD`
+```
+{
+    "timestamp": "2022-12-04",
+    "status": 400,
+    "errors": [
+        "title must not be null"
+    ]
+}
+
+```
+
+**To list the Products**
+
+`GET:- http://localhost:8080/api/products`
 
 Response :- 
 
 ```
  [
     {
-        "value": 1.3635,
-        "date": "2011-02-08"
+        "details": "Cleanising agent",
+        "title": "Soap",
+        "id": "8c3ed1bb-166c-47dd-a3bb-afd501f0f13a",
+        "category": "domestic",
+        "size": "small",
+        "price": 40.5
     },
     {
-        "value": 1.102,
-        "date": "2016-10-12"
+        "details": "Cleanising agent",
+        "title": "Detergent",
+        "id": "05bb82bf-392f-489c-85d7-6743e8679212",
+        "category": "domestic",
+        "size": "small",
+        "price": 40.5
     },
     {
-        "value": 0.9975,
-        "date": "2002-09-05"
-    },
-    {
-        "value": 0.8587,
-        "date": "2000-11-07"
-    }
- ]
-
-```
-- To fetch the exchange rate at particular date for a given currency
-
-`GET:- http://localhost:8080/api/exchangeRates/USD?date=2000-11-07`
-
-Response :- 
-
-```
-[
-    {
-        "value": 0.86,
-        "date": "2000-11-07"
+        "details": "Healthy and Protenious bar",
+        "title": "Proteing Bar",
+        "id": "c4cd58ce-dade-4112-a6e1-e11afa4e625b",
+        "category": "food",
+        "size": null,
+        "price": 100.5
     }
 ]
 ```
 
-- To get a foreign exchange amount for a given currency converted to EUR on a particular day
+If products are not available it returns an error
 
-`GET:- http://localhost:8080/api/convert/USD?date=2000-11-07&amount=220`
+```
+{
+    "timestamp": "2022-12-04T18:30:07.350255",
+    "message": "No Product found"
+}
+```
+
+**To fetch product details by Id**
+
+`GET:- http://localhost:8080/api/products/fc231103-ded1-4a25-8d2a-d174bde3057c`
 
 Response :- 
 
 ```
 {
-    "convertedAmount": 189.2
+    "details": "Healthy and Protenious bar",
+    "title": "Proteing Bar",
+    "id": "fc231103-ded1-4a25-8d2a-d174bde3057c",
+    "category": "food",
+    "size": null,
+    "price": 100.5
 }
 ```
+ If product is not found then it returns an error
 
-## Domain Model
+```
+{
+    "timestamp": "2022-12-04T18:31:55.83154",
+    "message": "Product not found"
+}
 
-![alt](uml.png)
+```
+
+## Domain Model and Design decisions.
+
 
 
