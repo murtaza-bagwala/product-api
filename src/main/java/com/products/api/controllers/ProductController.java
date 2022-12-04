@@ -1,11 +1,11 @@
 package com.products.api.controllers;
 
-import com.products.api.dtos.requests.ProductRequest;
 import com.products.api.models.Product;
-import com.products.api.services.impl.ProductService;
+import com.products.api.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,13 +18,13 @@ public class ProductController {
   private ProductService productService;
 
   @PostMapping
-  public Product createProduct(@RequestBody ProductRequest productRequest) {
+  public Product createProduct(@RequestBody @Valid Product product) {
 
-    return productService.createProduct(productRequest);
+    return productService.createProduct(product);
   }
 
   @GetMapping
-  public List<Product> listProducts(@RequestBody ProductRequest productRequest) {
+  public List<Product> listProducts() {
 
     return productService.listAllProducts();
   }

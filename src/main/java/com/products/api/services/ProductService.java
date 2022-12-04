@@ -1,13 +1,12 @@
-package com.products.api.services.impl;
+package com.products.api.services;
 
-import com.products.api.dtos.requests.ProductRequest;
 import com.products.api.models.Product;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
-  Product createProduct(ProductRequest productRequest);
+  Product createProduct(Product product);
 
   List<Product> listAllProducts();
 
