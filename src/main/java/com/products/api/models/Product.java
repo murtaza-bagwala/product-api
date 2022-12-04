@@ -3,6 +3,7 @@ package com.products.api.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.UUID;
@@ -19,6 +20,7 @@ public class Product {
   private String category;
   private String size;
   @NotNull
+  @Min(1)
   private double price;
 
   public Product() {

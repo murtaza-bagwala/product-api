@@ -136,7 +136,24 @@ Response :-
 
 ```
 
-## Domain Model and Design decisions.
+## Design decisions.
+
+I used Spring boot to create the APIs as I just wanted to make APIs more readable
+as initially I thought of using Rails but it does so many things under the hood
+convention over config :) and looking at the code, things are not obvious.
+
+I used h2 in memory database in order to persist record in memory, It is
+really flexible and works really well with JPA (an ORM for java).
+
+I created a Product model, with all its basic details like details, title
+etc. Also, added validations on each if its fields, I choose Id as UUID
+as they are always unique and can help us if we go to distributed environments etc.
+
+I have written the 100% testcases for the Controller, Repository and Service too,
+they can be found in `src/test`
+
+
+
 
 
 
